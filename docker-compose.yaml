@@ -1,0 +1,25 @@
+version: '3.3'
+
+services:
+  redis:
+    restart: always
+    image: redis:5
+    ports:
+        - "6379:6379"
+    volumes:
+        - redisdata:/data
+  python7:
+    container_name: python7
+    env_file: ${env}
+    build:
+      restart: always
+      ports:
+          - "8080:8080"
+      entrypoint: ["python3","hello.py"]
+      volumes:
+          - .:/usr/src/app
+      depends_on:
+         - redis
+volumes:
+    redisdata:       
+    
